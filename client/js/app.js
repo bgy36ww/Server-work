@@ -4,7 +4,7 @@ var app = angular.module('clicker',['ngResource']);
 
 app.controller('Testing',function(){});
 
-app.controller('UserController', function($rootScope){
+app.controller('UserController', function($rootScope,$resource){
 	this.nm = "";
 	this.tries ='Stranger';
 	$rootScope.loggedin = false;
@@ -12,6 +12,16 @@ app.controller('UserController', function($rootScope){
 
 		this.tries = this.nm;
 		$rootScope.nm=this.nm;
+		$rootScope.new=true;
+		var saveb = $resource('/api/meetups');
+
+
+		$rootScope.name1=saveb.$find({name:this.nm});
+        if ($rootScope.name1==null)
+		{
+			$rootScope.new=false;
+		}
+
 		$rootScope.loggedin = true;
 	};
 	this.reName = function() {
@@ -79,9 +89,14 @@ app.controller('saveController',function($rootScope,$resource){
 	$rootScope.meetups = [];
 
 	this.saveName=function(){
+		if ($rootScope.new){
+			var newName =new saveb();	}
+		else {
+			var newName=$rootScope.name1;
+		}
 		$rootScope.debugg="good";
 
-		var newName =new saveb();
+
 		console.log($rootScope.nm);
 
 
@@ -93,11 +108,14 @@ app.controller('saveController',function($rootScope,$resource){
 		var i=0;
 		for (var objj in $rootScope.upgrades)
 		{
-			uptmp[i]=objj.lvl;
+			uptmp[i]=$rootScope.upgrades[objj].lvl;
 			i++;
 		}
+		$rootScope.debugg=uptmp;
 		newName.upgrades=uptmp;
 		newName.$save();
+
+
 	};
 
 
