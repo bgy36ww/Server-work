@@ -11,16 +11,7 @@ app.controller('UserController', function($rootScope,$resource){
 	this.addName = function() {
 
 		this.tries = this.nm;
-		$rootScope.nm=this.nm;
-		$rootScope.new=true;
-		var saveb = $resource('/api/meetups');
-
-
-		$rootScope.name1=saveb.$find({name:this.nm});
-        if ($rootScope.name1==null)
-		{
-			$rootScope.new=false;
-		}
+        $rootScope.nm=this.nm;
 
 		$rootScope.loggedin = true;
 	};
@@ -79,22 +70,26 @@ app.controller('saveController',function($rootScope,$resource){
 
 
 
-	saveb.query(function (results) {
-		$rootScope.meetups = results;
-	});
-
 	$rootScope.debugg="test";
 
 
-	$rootScope.meetups = [];
 
 	this.saveName=function(){
-		if ($rootScope.new){
-			var newName =new saveb();	}
-		else {
-			var newName=$rootScope.name1;
-		}
-		$rootScope.debugg="good";
+
+
+
+
+
+		var newName =new saveb();
+
+        var test=$resource('/api/meetups');
+		var test2=test.get({name:$rootScope.nm},function(){});
+
+		console.log(test2);
+
+		newName.$get({name:$rootScope.nm});
+
+
 
 
 		console.log($rootScope.nm);
@@ -111,7 +106,7 @@ app.controller('saveController',function($rootScope,$resource){
 			uptmp[i]=$rootScope.upgrades[objj].lvl;
 			i++;
 		}
-		$rootScope.debugg=uptmp;
+
 		newName.upgrades=uptmp;
 		newName.$save();
 
