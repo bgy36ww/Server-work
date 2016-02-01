@@ -4,21 +4,34 @@ var app = angular.module('clicker',['ngResource']);
 
 app.controller('Testing',function(){});
 
-app.controller('UserController', function($rootScope,$resource){
-	this.nm = "";
-	this.tries ='Stranger';
+app.controller('UserController', function($scope,$rootScope,$http,$resource){
+	$scope.nm = "";
+	$scope.tries ='Stranger';
+	$scope.userdata;
+	var respc;
+	var verify = $resource('/api/fetch');
 	$rootScope.loggedin = false;
-	this.addName = function() {
 
-		this.tries = this.nm;
-        $rootScope.nm=this.nm;
+	$scope.addName = function() {
+		$scope.tries = $scope.nm;
+		$http.post('/api/fetch',{test: $scope.tries}).then(function( response ) {
+			console.log(response.data);
+			$scope.userdata = response.data;
+		});
+		//var temp = new verify();
+		//respc = temp.$save();
+		
 
+		
+        //$rootScope.nm=this.nm;
 		$rootScope.loggedin = true;
+
+
 	};
-	this.reName = function() {
+	$scope.reName = function() {
 		$rootScope.loggedin = false;
-		this.nm = "";
-		this.tries = 'Stranger';
+		$scope.nm = "";
+		$scope.tries = 'Stranger';
 	};
 });
 
@@ -66,7 +79,7 @@ app.controller('keyboardController', function($rootScope){
 
 app.controller('saveController',function($rootScope,$resource){
 
-	var saveb = $resource('/api/meetups');
+var saveb = $resource('/api/meetups');
 
 
 
@@ -108,14 +121,16 @@ app.controller('saveController',function($rootScope,$resource){
 		}
 
 		newName.upgrades=uptmp;
+		$rootScope.debugg=newName;
 		newName.$save();
+
 
 
 	};
 
 
 
-
+	
 
 });
 

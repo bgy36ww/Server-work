@@ -7,6 +7,9 @@ module.exports.create = function (req, res) {
   });
 }
 
+module.exports.getName = function (req, res) {
+	res.json(req.body);
+}
 
 module.exports.list = function (req, res) {
   res.json(req.body);

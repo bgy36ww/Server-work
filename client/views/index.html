@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
 
-  <title>Hello {{user.tries}}!</title>
+  <title>Hello {{tries}}!</title>
 
 </head>
 
@@ -13,13 +13,13 @@
 	<div ng-controller = "saveController as saveT">
         {{debugg}}
 	
-		<form ng-submit = "user.addName()" ng-hide = "loggedin">
-		Who are you? <input type="text" ng-model = "user.nm" name = "UserInputBox">
+		<form ng-submit = "addName()" ng-hide = "loggedin">
+		Who are you? <input type="text" ng-model = "nm" name = "UserInputBox">
 		<input type="submit" value = "Log In">
 		
 		</form>
 		
-		<blockquote ng-show = "loggedin"> Hello {{user.nm}}! Start Typing!<BR> <a href ng-click = "user.reName()">Not {{user.nm}}?</a>   <input type="submit" value = "Save" ng-click="saveT.saveName()"> </blockquote>
+		<blockquote ng-show = "loggedin"> Hello {{tries}}! Start Typing!<BR> <a href ng-click = "reName()">Not {{tries}}?</a>   <input type="submit" value = "Save" ng-click="saveT.saveName()"> </blockquote>
 
 
 	</div>

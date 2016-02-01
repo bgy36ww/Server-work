@@ -17,6 +17,7 @@ app.use('/js', express.static(__dirname + '/client/js'));
 //REST API
 app.get('/api/meetups', meetupsController.list);
 app.post('/api/meetups', meetupsController.create);
+app.post('/api/fetch', meetupsController.getName);
 
 app.listen(3000, function() {
   console.log('I\'m Listening...');
