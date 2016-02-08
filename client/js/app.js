@@ -5,7 +5,7 @@ var app = angular.module('clicker',['ngResource']);
 app.controller('Testing',function(){});
 
 app.controller('UserController', function($scope,$rootScope,$http,$resource){
-	$scope.nm = "";
+	this.nm = "";
 	$scope.tries ='Stranger';
 	$scope.userdata;
 	var respc;
@@ -13,7 +13,7 @@ app.controller('UserController', function($scope,$rootScope,$http,$resource){
 	$rootScope.loggedin = false;
 
 	$scope.addName = function() {
-		$scope.tries = $scope.nm;
+		$scope.tries = this.nm;
 		$http.post('/api/fetch',{test: $scope.tries}).then(function( response ) {
 			console.log(response.data);
 			$scope.userdata = response.data;
@@ -30,7 +30,7 @@ app.controller('UserController', function($scope,$rootScope,$http,$resource){
 	};
 	$scope.reName = function() {
 		$rootScope.loggedin = false;
-		$scope.nm = "";
+		this.nm = "";
 		$scope.tries = 'Stranger';
 	};
 });
