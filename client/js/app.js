@@ -20,10 +20,10 @@ app.controller('UserController', function($scope,$rootScope,$http,$resource){
 		});
 		//var temp = new verify();
 		//respc = temp.$save();
-		
+		this.tries = response.data[0].name;
 
 		
-        //$rootScope.nm=this.nm;
+        $rootScope.nm=this.tries;
 		$rootScope.loggedin = true;
 
 
