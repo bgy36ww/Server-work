@@ -8,7 +8,11 @@ module.exports.create = function (req, res) {
 }
 
 module.exports.getName = function (req, res) {
-	res.json(req.body);
+
+    Meetup.find({name:req.body.test.toString()},function(err,result){
+      res.json(result);
+    });
+
 }
 
 module.exports.list = function (req, res) {
