@@ -1,51 +1,63 @@
-(function() {
 
-var app = angular.module('clicker',['ngResource']);
+var app = angular.module('clicker',['ngResource','ngRoute']);
 
 app.controller('Testing',function(){});
 
-app.controller('UserController', function($scope,$rootScope,$http,$resource){
+app.controller('UserController', function($scope,$rootScope,$http,$resource,gameData){
+	
 	this.nm = "";
-	$scope.tries ='Stranger';
+	$scope.tries = gameData.helloworld();
 	$scope.userdata;
 	var respc;
+	var serviceResponse;
 	var verify = $resource('/api/fetch');
+	$scope.loaded = false;
 	$rootScope.loggedin = false;
-
+	
+	
 	$scope.addName = function() {
 		$scope.tries = this.nm;
-		$http.post('/api/fetch',{test: $scope.tries}).then(function( response ) {
-			console.log(response.data);
-			$scope.userdata = response.data;
+
+		serviceResponse = gameData.login({test: $scope.tries});
+		$scope.tries = "";
+		serviceResponse.then(function(){
+			$scope.tries = gameData.returnName();
+			$scope.loaded = true;
 		});
+		$rootScope.loggedin
 		//var temp = new verify();
 		//respc = temp.$save();
-		this.tries = response.data[0].name;
 
-		
-        $rootScope.nm=this.tries;
-		$rootScope.loggedin = true;
+		$rootScope.loggedin = gameData.loggedin;
+
 
 
 	};
 	$scope.reName = function() {
 		$rootScope.loggedin = false;
+		$scope.loaded = false;
 		this.nm = "";
 		$scope.tries = 'Stranger';
 	};
 });
 
-app.controller('keyboardController', function($rootScope){
+app.controller('keyboardController', function($rootScope, $scope){
 	this.lines = [''];
 	this.line = 0;
 	$rootScope.score = 0;
 	this.capslock = false;
 	this.lowercase = true;
-	
+	var loggedIn = false;
+	$scope.logOff = function(){
+		loggedIn = false;
+	};
+	$scope.logIn = function(){
+		loggedIn = true;
+	};
+
 	this.getKey = function(letter) {
-		if($rootScope.loggedin) {
+		if(loggedIn) {
 			if(letter.keyCode > 47 && letter.keyCode <91) {
-				
 				if(this.lowercase) {
 					this.lines[this.line] = this.lines[this.line].concat(String.fromCharCode(letter.keyCode).toLowerCase());
 				} else {
@@ -148,7 +160,11 @@ app.controller('rateController',function($rootScope,$interval){
 });
 
 app.controller('upgradeController', function($rootScope){
-	
+	var upgradelist = [
+		{id: 0, lvl: 0, rate: 1,cost: 1, name: 'Sucky Writer'},
+		{id: 1, lvl: 0, rate: 5,cost: 4, name: 'OK Writer'},
+		{id: 2, lvl: 0, rate: 1,cost: 10, name: 'Improved Typing'}
+	];
 	this.upgrades = upgradelist;
 	this.adding;
 	$rootScope.letterValue = 1;	
@@ -173,9 +189,3 @@ app.controller('upgradeController', function($rootScope){
 
 });
 
-	var upgradelist = [
-		{id: 0, lvl: 0, rate: 1,cost: 1, name: 'Sucky Writer'},
-		{id: 1, lvl: 0, rate: 5,cost: 4, name: 'OK Writer'},
-		{id: 2, lvl: 0, rate: 1,cost: 10, name: 'Improved Typing'}
-	];
-})();
