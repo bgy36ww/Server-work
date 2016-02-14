@@ -24,8 +24,7 @@
 
 	</div>
 	<div ng-show = "loaded">
-		<div ng-controller ="rateController as runner" >
-			
+		<div>
 			Score: {{score}} | {{rate}} / sec
 		</div>
 
@@ -35,7 +34,7 @@
 			</div>
 		</div>
 
-		<div ng-repeat = "line in keyboard.lines">
+		<div ng-repeat = "line in keyboard.lines track by $index">
 			{{line}}
 
 		</div>

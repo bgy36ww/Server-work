@@ -3,7 +3,7 @@ var app = angular.module('clicker',['ngResource','ngRoute']);
 
 app.controller('Testing',function(){});
 
-app.controller('UserController', function($scope,$rootScope,$http,$resource,gameData){
+app.controller('UserController', function($scope,$http,$resource,gameData){
 	
 	this.nm = "";
 	$scope.tries = gameData.helloworld();
@@ -12,8 +12,6 @@ app.controller('UserController', function($scope,$rootScope,$http,$resource,game
 	var serviceResponse;
 	var verify = $resource('/api/fetch');
 	$scope.loaded = false;
-	$rootScope.loggedin = false;
-	
 	
 	$scope.addName = function() {
 		$scope.tries = this.nm;
@@ -24,33 +22,40 @@ app.controller('UserController', function($scope,$rootScope,$http,$resource,game
 			$scope.tries = gameData.returnName();
 			$scope.loaded = true;
 		});
-		$rootScope.loggedin
-		//var temp = new verify();
-		//respc = temp.$save();
-
-		$rootScope.loggedin = gameData.loggedin;
-
-
 
 	};
 	$scope.reName = function() {
-		$rootScope.loggedin = false;
 		$scope.loaded = false;
 		this.nm = "";
 		$scope.tries = 'Stranger';
 	};
 });
 
-app.controller('keyboardController', function($rootScope, $scope){
+app.controller('keyboardController', function($rootScope,$scope,gameData){
 	this.lines = [''];
 	this.line = 0;
-	$rootScope.score = 0;
 	this.capslock = false;
 	this.lowercase = true;
+	$scope.score = gameData.viewScore();
 	var loggedIn = false;
+	
 	$scope.logOff = function(){
 		loggedIn = false;
 	};
+	
+	var updateScore = function(){
+		$scope.score = gameData.viewScore();
+
+	};
+
+	var scoreListener = function(){
+		$scope.$on('updateScore',updateScore);
+		$scope.$on('$destroy',scoreListener);
+	}
+	var runListener = scoreListener();
+
+
+
 	$scope.logIn = function(){
 		loggedIn = true;
 	};
@@ -62,18 +67,23 @@ app.controller('keyboardController', function($rootScope, $scope){
 					this.lines[this.line] = this.lines[this.line].concat(String.fromCharCode(letter.keyCode).toLowerCase());
 				} else {
 					this.lines[this.line] = this.lines[this.line].concat(String.fromCharCode(letter.keyCode));	
-				} 
-				$rootScope.score = $rootScope.score + $rootScope.letterValue;
+				}
+				$rootScope.$on('updateScore',updateScore);
+				gameData.keyScore();
+				
 			} else if(letter.keyCode == 16) {
 				this.lowercase = false;
 			} else if(letter.keyCode == 32) {
 				this.lines[this.line] = this.lines[this.line].concat(String.fromCharCode(160));
-				$rootScope.score = $rootScope.score + $rootScope.letterValue;
+				$rootScope.$on('updateScore',updateScore);
+				gameData.keyScore();
 			}
+
 			if(this.lines[this.line].length >= 10) {
 				this.lines.push('');
 				this.line = this.line + 1;
 			}
+			
 			if(this.line >= 9) {
 				this.lines = this.lines.slice(1);
 				this.line--;
