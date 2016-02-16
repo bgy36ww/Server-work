@@ -14,13 +14,15 @@
         {{debugg}}
 	
 		<form ng-submit = "addName() ; logIn()" ng-hide = "loaded">
-		Who are you? <input type="text" ng-model = "nm" name = "UserInputBox">
-		<input type="submit" value = "Log In">
-		
+			Who are you? <input type="text" ng-model = "nm" name = "UserInputBox">
+			<input type="submit" value = "Log In">
 		</form>
 		
-		<blockquote ng-show = "loaded"> Hello {{tries}}! Start Typing!<BR> <a href ng-click = "reName() ; logOff()">Not {{tries}}?</a>   <input type="submit" value = "Save" ng-click="saveT.saveName()"> </blockquote>
-
+		<blockquote ng-show = "loaded"> Hello {{tries}}! Start Typing!
+			<BR> 
+			<a href ng-click = "reName() ; logOff()">Not {{tries}}?</a>   
+			<input type="submit" value = "Save" ng-click="saveT.saveName()"> 
+		</blockquote>
 
 	</div>
 	<div ng-show = "loaded">
@@ -29,8 +31,8 @@
 		</div>
 
 		<div ng-controller = "upgradeController as up">
-			<div ng-repeat="types in up.upgrades">
-				<input type="submit"  value = {{types.name}} ng-click = "up.suckyUp(types.id)">  Current Lvl:{{types.lvl}} Cost:{{types.cost}} 
+			<div ng-repeat="types in upgrades">
+				<input type="submit"  value = {{types.name}} ng-click = "suckyUp(types.id)">  Current Lvl:{{types.lvl}} Cost:{{types.cost}} 
 			</div>
 		</div>
 
@@ -40,11 +42,8 @@
 		</div>
 	</div>
 
-
-
-   <script type = "text/javascript" src="js/angular.js"></script>
-   <script type = "text/javascript" src="js/angular-route.js"></script>
-
+   	<script type = "text/javascript" src="js/angular.js"></script>
+   	<script type = "text/javascript" src="js/angular-route.js"></script>
 	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.16/angular-resource.js"></script>
 
 	<script type = "text/javascript" src="js/app.js"></script>

@@ -6,11 +6,9 @@ app.service('gameData',function($http,$q,$interval,$rootScope){
 	var userdata;
 	var defer = $q.defer();
 	var loaded = false;
-	var rate = 100;
+	var rate = 0;
 	var score = 0;
 	var run;
-
-	run = $interval(rateScore,1000);
 
 	var uplist = [
 		{id: 0, lvl: 0, rate: 1,cost: 1, name: 'Sucky Writer'},
@@ -36,13 +34,19 @@ app.service('gameData',function($http,$q,$interval,$rootScope){
 			userdata = response.data;
 			loaded = true;
 			username = userdata[0].name;
-
+			scoreInterval();
 			return true;
 		});
+
+	};
+
+	var scoreInterval = function(){
+		run = $interval(rateScore,1000);
 	};
 
 	this.logout = function(){
 		loaded = false;
+		$interval.cancel(run);
 	};
 
 	this.upgradeList = function(){
@@ -50,18 +54,54 @@ app.service('gameData',function($http,$q,$interval,$rootScope){
 	};
 
 	this.keyScore = function(){
-		score = score + uplist[2].rate;
-		console.log(score);
-		$rootScope.$broadcast('updateScore');
+		score = score + 1 + uplist[2].rate * uplist[2].lvl;
+		scoreBroadcast();
 	};
 
 	var rateScore = function(){
 		score = score + rate;
-		$rootScope.$broadcast('updateScore');
-		console.log('rateadd');
+		scoreBroadcast();
 	};
 
 	this.viewScore = function(){
 		return score;
 	};
+
+	this.upgrade = function(n){
+		
+		if( score >= uplist[n].cost) {
+			console.log('tried to upgrade');
+			uplist[n].lvl++;
+			if(n != 2) {
+				rate = rate + uplist[n].rate;
+			}
+			score = score - uplist[n].cost;
+			scoreBroadcast();
+			upgradeBroadcast(n);
+		}
+	};
+
+	this.rateUpdate = function(){
+		console.log('rate returned');
+		return rate;
+	};
+
+	this.upgradeUpdate = function(n){
+		return uplist[n].lvl;
+
+	};
+
+	var scoreBroadcast = function(){
+		$rootScope.$broadcast('updateScore');
+	}
+
+	var rateBroadcast = function(){
+		console.log('broadcast rate update');
+	}
+
+	var upgradeBroadcast = function(n){
+		console.log(uplist[n].name + ' broadcast');
+		$rootScope.$broadcast(n+uplist[n].name);
+	};
+
 });

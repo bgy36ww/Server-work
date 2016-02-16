@@ -25,6 +25,7 @@ app.controller('UserController', function($scope,$http,$resource,gameData){
 
 	};
 	$scope.reName = function() {
+		gameData.logout();
 		$scope.loaded = false;
 		this.nm = "";
 		$scope.tries = 'Stranger';
@@ -45,14 +46,9 @@ app.controller('keyboardController', function($rootScope,$scope,gameData){
 	
 	var updateScore = function(){
 		$scope.score = gameData.viewScore();
-
 	};
 
-	var scoreListener = function(){
-		$scope.$on('updateScore',updateScore);
-		$scope.$on('$destroy',scoreListener);
-	}
-	var runListener = scoreListener();
+	var runListener = $scope.$on('updateScore',updateScore);
 
 
 
@@ -68,14 +64,11 @@ app.controller('keyboardController', function($rootScope,$scope,gameData){
 				} else {
 					this.lines[this.line] = this.lines[this.line].concat(String.fromCharCode(letter.keyCode));	
 				}
-				$rootScope.$on('updateScore',updateScore);
 				gameData.keyScore();
-				
 			} else if(letter.keyCode == 16) {
 				this.lowercase = false;
 			} else if(letter.keyCode == 32) {
 				this.lines[this.line] = this.lines[this.line].concat(String.fromCharCode(160));
-				$rootScope.$on('updateScore',updateScore);
 				gameData.keyScore();
 			}
 
@@ -169,33 +162,30 @@ app.controller('rateController',function($rootScope,$interval){
 
 });
 
-app.controller('upgradeController', function($rootScope){
-	var upgradelist = [
-		{id: 0, lvl: 0, rate: 1,cost: 1, name: 'Sucky Writer'},
-		{id: 1, lvl: 0, rate: 5,cost: 4, name: 'OK Writer'},
-		{id: 2, lvl: 0, rate: 1,cost: 10, name: 'Improved Typing'}
-	];
-	this.upgrades = upgradelist;
-	this.adding;
-	$rootScope.letterValue = 1;	
-	$rootScope.rate = 0;
+app.controller('upgradeController', function($scope,gameData,$rootScope){
+	$scope.upgrades = gameData.upgradeList();
+	$scope.rate = gameData.rateUpdate();
+	var nUps = $scope.upgrades.length;
+	var upgradeListeners = [];
+	var n = 0;
 
-	this.suckyUp = function(n){
-		
-		if($rootScope.score >= this.upgrades[n].cost) {
-			this.upgrades[n].lvl++;
-			if(n == 2) {
-				$rootScope.letterValue = 1 + this.upgrades[2].rate * this.upgrades[2].lvl;
-			} else {
-				$rootScope.rate = $rootScope.rate + this.upgrades[n].cost;	
-			}
-			
-			$rootScope.score = $rootScope.score - this.upgrades[n].cost;
-		}
-		$rootScope.upgrades=this.upgrades;
-		
+	var testFunction = function(event){
+		var whichUpgrade = event.name.substring(0,1);
+		$scope.upgrades[whichUpgrade].lvl = gameData.upgradeUpdate(whichUpgrade);
 	};
 
+	for( n = 0 ; n < nUps ; n ++) {
+		$rootScope.$on(n+$scope.upgrades[n].name,testFunction);
+	}
 
+	var updateUpgrades = function(){
+		console.log('hello');
+		$scope.upgrades[n].lvl = gameData.upgradeUpdate(n);
+		$scope.rate = gameData.rateUpdate();
+	};
+
+	$scope.suckyUp = function(n){
+		gameData.upgrade(n);		
+	};
 });
 
