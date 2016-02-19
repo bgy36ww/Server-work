@@ -13,6 +13,8 @@ app.get('/', function (req, res) {
 });
 
 app.use('/js', express.static(__dirname + '/client/js'));
+app.use('/packages', express.static(__dirname + '/node_modules'));
+app.use('/bootstrap', express.static(__dirname + '/node_modules/bootstrap/dist'));
 
 //REST API
 app.get('/api/meetups', meetupsController.list);
