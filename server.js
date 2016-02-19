@@ -20,9 +20,9 @@ app.use('/bootstrap', express.static(__dirname + '/node_modules/bootstrap/dist')
 app.get('/api/meetups', meetupsController.list);
 app.post('/api/meetups', meetupsController.create);
 app.post('/api/fetch', meetupsController.getName);
-app.post('/api/CreateUser',meetupController.CreateUser);
-app.post('/api/Save',meetupController.SaveUser);
-app.get('/api/Findfriends',meetupController.Find);
+//app.post('/api/CreateUser',meetupsController.CreateUser);
+//app.post('/api/Save',meetupsController.SaveUser);
+//app.get('/api/Findfriends',meetupsController.Find);
 
 
 
