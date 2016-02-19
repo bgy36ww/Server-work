@@ -131,7 +131,7 @@ var saveb = $resource('/api/meetups');
 		var i=0;
 		for (var objj in $rootScope.upgrades)
 		{
-			uptmp[i]=$rootScope.upgrades[objj].lvl;
+			uptmp[i]=$rootScope.upgrades[objj].lvl||0;
 			i++;
 		}
 
