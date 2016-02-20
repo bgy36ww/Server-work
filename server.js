@@ -18,9 +18,9 @@ app.use('/js', express.static(__dirname + '/client/js'));
 app.get('/api/meetups', meetupsController.list);
 app.post('/api/meetups', meetupsController.create);
 app.post('/api/fetch', meetupsController.getName);
-app.post('/api/CreateUser',meetupController.CreateUser);
-app.post('/api/Save',meetupController.SaveUser);
-app.get('/api/Findfriends',meetupController.Find);
+//app.post('/api/CreateUser',meetupController.CreateUser);
+//app.post('/api/Save',meetupController.SaveUser);
+//app.get('/api/Findfriends',meetupController.Find);
 
 
 
