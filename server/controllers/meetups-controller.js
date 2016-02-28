@@ -20,3 +20,4 @@ module.exports.list = function (req, res) {
   Meetup.find({},function(err,result){});
 }
 
+module.exports.createuser =
