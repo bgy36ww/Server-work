@@ -1,5 +1,5 @@
 
-var app = angular.module('clicker',['ngResource','ngRoute']);
+var app = angular.module('clicker',['ngResource','ngRoute','ngAnimate']);
 
 app.controller('Testing',function(){});
 

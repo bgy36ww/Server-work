@@ -2,6 +2,7 @@
 <html lang="en" ng-app="clicker" ng-controller="UserController as user" >
 	
 	<script type = "text/javascript" src="packages/angular/angular.min.js"></script>
+	<script type = "text/javascript" src="packages/angular-animate/angular-animate.min.js"></script>
 	<script type = "text/javascript" src="packages/angular-route/angular-route.min.js"></script>
 	<script type="text/javascript" src="packages/angular-resource/angular-resource.min.js"></script>
 	<script type = "text/javascript" src="packages/jquery/dist/jquery.min.js"></script>
@@ -10,8 +11,10 @@
 
 	<script type = "text/javascript" src="js/app.js"></script>
 	<script type = "text/javascript" src="js/service.js"></script>
+	
 
 	<link rel="stylesheet" href = "bootstrap/css/bootstrap.min.css"> </link>
+	<link rel="stylesheet" href = "css/self.css"> </link>
 
 	<head>
 
@@ -21,13 +24,13 @@
 
 	</head>
 
-	<nav class="navbar navbar-default" id = "Title Bar"> 
+	<nav class="navbar navbar-default removeBorder" id = "TitleBar"> 
 		<div class = "container-fluid">
 			<div class = "navbar-header" >
 				GAME NAME
 			</div>
 			<div  class = "nav navbar-nav navbar-right" ng-controller = "saveController as saveT">
-				<form ng-submit = "addName() ; logIn()" ng-hide = "loaded">
+				<form ng-submit = "addName() ; logIn()" ng-hide = "loaded" class = "fadein">
 					Username: <input type="text" ng-model = "nm" name = "UserInputBox">
 					Password: <input type="text" ng-model = "" name = "PassInputBox">
 					<input type="submit" value = "Log In!">
@@ -35,10 +38,10 @@
 					<BR>
 					
 				</form>
-				<div ng-hide = "loaded">
+				<div ng-hide = "loaded" class = "fadein">
 					<a href ng-click = "newUser()">New User?</a>
 				</div>
-				<div ng-show = "loaded"> Welcome {{tries}}!
+				<div ng-show = "loaded" class = "fadein"> Welcome {{tries}}!
 					<BR> 
 					<input type="submit" value = "Log Off" ng-click="reName() ; logOff()">
 					<input type="submit" value = "Save" ng-click="saveT.saveName()"> 
@@ -49,35 +52,42 @@
 	</nav>
 
 	<body ng-controller = "keyboardController as keyboard"   ng-keydown="keyboard.getKey($event)" ng-keyup = "keyboard.shiftRelease($event)"  >
-		<div ng-hide = "loaded">
+		<div ng-hide = "loaded" class = "col-xs-8 col-md-10">
 			Welcome!
 		</div>
-		<div ng-show = "loaded">
-			<div class = "col-xs-8 col-md-10">
 
-				<div >
-					<div>
-						Score: {{score}} | {{rate}} / sec
-					</div>
+		<div ng-show = "loaded" class = "col-xs-8 col-md-10">
+
+			<div >
+				<div>
+					Score: {{score}} | {{rate}} / sec
+				</div>
 
 
 
-					<div ng-repeat = "line in keyboard.lines track by $index">
-						{{line}}
+				<div ng-repeat = "line in keyboard.lines track by $index">
+					{{line}}
 
-					</div>
 				</div>
 			</div>
-			<div class = "col-xs-4 col-md-2" ng-controller = "upgradeController as up">
-				<ul class = "nav nav-pills">
+		</div>
+		<div id = "sidebar" class = "col-xs-4 col-md-2 sidebarthings" ng-controller = "upgradeController as up" ng-show = "loaded">
+			<div class="tabcontainer">
+				<ul class = "nav nav-pills sidetabs">
 					<li role="presentation" class = "active"><a href = "#"> Upgrades </a> </li>
 					<li role="presentation"><a href = "#"> Friends </a> </li>
 				</ul>
+			</div>
+			<div class = "sidelists">
 				<div ng-repeat="types in upgrades">
 					<input type="submit"  value = {{types.name}} ng-click = "suckyUp(types.id)">  	Current Lvl:{{types.lvl}} Cost:{{types.cost}} 
 				</div>
-
 			</div>
+
 		</div>
+
 	</body>
+
+	<script type = "text/javascript" src="js/formats.js"></script>
+
 </html>
