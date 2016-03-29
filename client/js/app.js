@@ -1,4 +1,5 @@
-
+//reuqests should be done in here
+//make a save button, find user button, and register button and testing purpose
 var app = angular.module('clicker',['ngResource','ngRoute','ngAnimate']);
 
 app.controller('Testing',function(){});
