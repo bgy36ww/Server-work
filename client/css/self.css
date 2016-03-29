@@ -26,6 +26,11 @@
 	margin-bottom: 0;
 }
 
+#mainTree {
+	position: fixed;
+	
+}
+
 
 @keyframes fadein {
 	from {

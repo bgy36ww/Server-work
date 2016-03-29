@@ -52,22 +52,17 @@
 	</nav>
 
 	<body ng-controller = "keyboardController as keyboard"   ng-keydown="keyboard.getKey($event)" ng-keyup = "keyboard.shiftRelease($event)"  >
-		<div ng-hide = "loaded" class = "col-xs-8 col-md-10">
-			Welcome!
-		</div>
+		<div id = "gameScreen" class = "col-xs-10 col-md-10">
 
-		<div ng-show = "loaded" class = "col-xs-8 col-md-10">
+			<img id = "mainTree" src = "imgs/Sapling-1.gif">
 
-			<div >
-				<div>
+			<div ng-hide = "loaded">
+				Welcome!
+			</div>
+
+			<div ng-show = "loaded">
+				<div >
 					Score: {{score}} | {{rate}} / sec
-				</div>
-
-
-
-				<div ng-repeat = "line in keyboard.lines track by $index">
-					{{line}}
-
 				</div>
 			</div>
 		</div>
