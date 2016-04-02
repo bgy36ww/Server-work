@@ -36,7 +36,7 @@ app.post('/api/fetch', meetupsController.getName);
 
 app.post('/api/CreateUser',meetupsController.CreateUser);
 app.post('/api/Save',meetupsController.SaveUser);
-app.get('/api/Find',meetupsController.Find);
+app.post('/api/Find',meetupsController.Find);
 //>>>>>>> e242c96d54de80851525934414af9e98a4d3d8bc
 
 

@@ -95,9 +95,9 @@ app.service('gameData',function($http,$q,$interval,$rootScope){
 		$rootScope.$broadcast('updateScore');
 	}
 
-	var rateBroadcast = function(){
-		console.log('broadcast rate update');
-	}
+//	var rateBroadcast = function(){
+//		console.log('broadcast rate update');
+//	}
 
 	var upgradeBroadcast = function(n){
 		console.log(uplist[n].name + ' broadcast');
